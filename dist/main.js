@@ -1,1 +1,1 @@
-(()=>{"use strict";console.log("Hello")})();
+(()=>{"use strict";document.querySelector(".delete").addEventListener("click",(()=>{console.log("hello")}))})();

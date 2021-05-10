@@ -4,11 +4,32 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script defer src="/node_modules/@fortawesome/fontawesome-free/js/all.js"></script>
+    <link href='fonts/fonts.css' type="text/css" rel='stylesheet'>
     <link rel="stylesheet" type="text/css" href="main.min.css">
     <title>ToDo-List</title>
 </head>
 <body>
-    
+    <header>
+        <i class="fas fa-clipboard-list"></i>
+        <h1 class="heading">ToDo List</h1>
+        <a href="https://github.com/vertskater/todolist" target="_blank"><i class="fab fa-github"></i></a>
+    </header>
+    <main>
+        <section id="sidebar" class="sidebar col-4">
+            <button id="btn-add-project">
+                Add Project
+            </button>
+            <div class="project">
+                Default
+                <em class="delete">X</em>
+            </div>
+        </section>
+        <section id="content" class="content col-8">
+
+        </section>
+    </main>
+    <!-- JavaScript -->
     <script src="main.js"></script>
 </body>
 </html>

@@ -1,7 +1,110 @@
+@import url(/node_modules/normalize.css/normalize.css);
+
+$text-color: #69686D;
+$main-color: #F0EDFA;
+$secondary-color: #fff;
 *{
     margin: 0;
     box-sizing: border-box;
 }
 html{
-    background-color: #0000ff;
+    background-color: $main-color;
+    color: $text-color;
+    font-family: 'Noto Sans', sans-serif;
+}
+h1{
+    margin: 0;
+    flex-grow: 1;
+}
+a{
+    text-decoration: none;
+    color: $text-color;
+}
+header{
+    height: 10vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 5vw;
+    border-bottom: solid 2px $text-color;
+    background-color: $secondary-color;
+    .svg-inline--fa.fa-w-12 {
+        width: 3em;
+        font-size: 2em;
+        flex-grow: 0;
+    }
+    .svg-inline--fa.fa-w-16{
+        flex-grow: 3;
+        //padding-right: 1vw;
+        width: 3em;
+        font-size: 2em;
+    }
+}
+main{
+    .col-4, .col-8{
+        float: left;
+        height: 100vh;
+    }
+    .col-4{
+        width: 25%;
+    }
+    .col-8{
+        width: 75%;
+    }
+    .sidebar{
+        background-color: $secondary-color;
+        border-right: solid 2px $text-color;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    &::after{
+        content: "";
+        display: block;
+        clear: both;
+    }
+    button{
+        background-color: $main-color;
+        border-radius: 2%;
+        border: solid 1px $text-color;
+        padding: 15px;
+        margin-top: 3vh;
+        cursor: pointer;
+        transition: transform 300ms ease;
+        &:hover{
+            transform: scale(1.1);
+        }
+    }
+    section{
+        .project{
+            border: solid 1px $text-color;
+            padding: 10px 20% 10px;
+            margin-top: 20px;
+            cursor: pointer;
+            transition: all 250ms ease;
+            .delete{
+                //display: none;
+                opacity: 0;
+                float: right;
+                margin-left: 5px;
+                background-color: red;
+                font-weight: 700;
+                border-radius: 50%;
+                width: 20px;
+                height: 20px;
+                text-align: center;
+                font-style: inherit;
+                transition: opacity 250ms ease;
+            }
+            &:hover{
+                background-color: $main-color;
+                .delete{
+                    color: $secondary-color;
+                    //display: block;
+                    opacity: 1;
+                    font-weight: 100;
+                }
+            }
+        }
+    }
 }
