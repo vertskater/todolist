@@ -1,26 +1,26 @@
 @import url(/node_modules/normalize.css/normalize.css);
 
-$text-color: #69686D;
-$main-color: #F0EDFA;
+$text-color: #69686d;
+$main-color: #f0edfa;
 $secondary-color: #fff;
-*{
+* {
     margin: 0;
     box-sizing: border-box;
 }
-html{
+html {
     background-color: $main-color;
     color: $text-color;
-    font-family: 'Noto Sans', sans-serif;
+    font-family: "Noto Sans", sans-serif;
 }
-h1{
+h1 {
     margin: 0;
     flex-grow: 1;
 }
-a{
+a {
     text-decoration: none;
     color: $text-color;
 }
-header{
+header {
     height: 10vh;
     display: flex;
     justify-content: center;
@@ -33,37 +33,38 @@ header{
         font-size: 2em;
         flex-grow: 0;
     }
-    .svg-inline--fa.fa-w-16{
+    .svg-inline--fa.fa-w-16 {
         flex-grow: 3;
         //padding-right: 1vw;
         width: 3em;
         font-size: 2em;
     }
 }
-main{
-    .col-4, .col-8{
+main {
+    .col-4,
+    .col-8 {
         float: left;
         height: 100vh;
     }
-    .col-4{
+    .col-4 {
         width: 25%;
     }
-    .col-8{
+    .col-8 {
         width: 75%;
     }
-    .sidebar{
+    .sidebar {
         background-color: $secondary-color;
         border-right: solid 2px $text-color;
         display: flex;
         flex-direction: column;
         align-items: center;
     }
-    &::after{
+    &::after {
         content: "";
         display: block;
         clear: both;
     }
-    button{
+    button {
         background-color: $main-color;
         border-radius: 2%;
         border: solid 1px $text-color;
@@ -71,18 +72,18 @@ main{
         margin-top: 3vh;
         cursor: pointer;
         transition: transform 300ms ease;
-        &:hover{
+        &:hover {
             transform: scale(1.1);
         }
     }
-    section{
-        .project{
+    section {
+        .project {
             border: solid 1px $text-color;
             padding: 10px 20% 10px;
             margin-top: 20px;
             cursor: pointer;
             transition: all 250ms ease;
-            .delete{
+            .delete {
                 //display: none;
                 opacity: 0;
                 float: right;
@@ -96,15 +97,68 @@ main{
                 font-style: inherit;
                 transition: opacity 250ms ease;
             }
-            &:hover{
+            &:hover {
                 background-color: $main-color;
-                .delete{
+                .delete {
                     color: $secondary-color;
                     //display: block;
                     opacity: 1;
                     font-weight: 100;
                 }
             }
+        }
+    }
+    .add-todo {
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        background-color: $secondary-color;
+        border: solid 1px $text-color;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 2em;
+        cursor: pointer;
+        top: 13vh;
+        right: 2vw;
+        transition: all 250ms ease-in-out;
+        &:hover {
+            top: 12vh;
+            box-shadow: 0px 10px 14px -9px rgba(0, 0, 0, 0.75);
+        }
+    }
+    #content {
+        padding: 5%;
+        display: flex;
+        flex-wrap: wrap;
+        .todo {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            border-radius: 3px;
+            border: solid 1px $text-color;
+            background-color: $secondary-color;
+            padding: 2em;
+            max-height: 50vh;
+            justify-content: space-evenly;
+            margin: 1em;
+        }
+        .delete {
+            color: $secondary-color;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            float: right;
+            margin-left: 5px;
+            background-color: lightcoral;
+            font-weight: 700;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            text-align: center;
+            font-style: inherit;
+            cursor: pointer;
         }
     }
 }
