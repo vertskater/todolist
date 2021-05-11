@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="main.min.css">
     <title>ToDo-List</title>
 </head>
+
 <body>
     <header>
         <i class="fas fa-clipboard-list"></i>
@@ -26,10 +28,23 @@
             </div>
         </section>
         <section id="content" class="content col-8">
-
+            <div class="add-todo">+</div>
+            <div class="todo">
+                <em class="delete">X</em>
+                <h3 class="todo-title">Testtitle</h3>
+                <span class="todo-description">some description</span>
+                <input type="date">
+                <label for="todo-priority">priority:</label>
+                <select id="todo-priority" name="priority">
+                    <option value="volvo">Hight</option>
+                    <option value="saab">Medium</option>
+                    <option value="fiat">Low</option>
+                </select>
+            </div>
         </section>
     </main>
     <!-- JavaScript -->
     <script src="main.js"></script>
 </body>
+
 </html>
