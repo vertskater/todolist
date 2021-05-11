@@ -1,8 +1,22 @@
 'use strict'
+import { format } from 'date-fns'
 
-const TodoProject = (projectName, active) => {
+
+const ToDo = (title, description, dueDate, priority) => {
+    dueDate = format(dueDate, 'dd.MM.yyyy');
+    const getDate = () => dueDate;
+    return {getDate};
+}
+
+/*
+const TodoProject = (projectName, active, todos=[]) => {
     const getProjectName = () => projectName;
-    return {getProjectName, active};
+    const todosContent = (todos) => {
+        for(let todo of todos){
+            console.log(todo);
+        }
+    }
+    return {getProjectName, todosContent, active, todos};
 }
 
 const ToDo = (projectName, title, description, dueDate, priority) => {
@@ -17,5 +31,5 @@ const ToDo = (projectName, title, description, dueDate, priority) => {
     const changeDueDate = (newDate) => dueDate = newDate;
     return Object.assign({}, prototype, {getTitle, getDescription, getDueDate, getPriority, changePriority, changeTitle, changeDescription, changeDueDate})
 }
-
+*/
 export {ToDo};
