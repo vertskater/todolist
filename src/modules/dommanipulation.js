@@ -1,9 +1,9 @@
 'use strict'
-
+import {Project} from './objects';
 /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 Code to add new Projects and create the html-code
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
-
+let allProjects = Project();
 
 function showAndHide(...elements) {
     for (let element of elements) {
@@ -11,7 +11,7 @@ function showAndHide(...elements) {
     }
 }
 
-const showProjectInput = (btn) => {
+const renderProjectInput = (btn) => {
     const inputName = document.querySelector('.type-project-name');
     const overlay = document.querySelector('.overlay');
     const btnCancel = document.querySelector('#btn-cancel-project');
@@ -39,32 +39,35 @@ const getProjectName = (projectName) => {
         input.value = '';
         return projectName;
     }
-
 }
 
-const addProject = (() => {
-    let htmlElements = ['div', 'em']; //must be oursourced
-    const sidebar = document.querySelector('#sidebar');
-    const btnAddProject = document.querySelector('#btn-add-project') //maby outsourced
-    let btnAdd = showProjectInput(btnAddProject);
-    let projectName = '';
-    btnAdd.addEventListener('click', () => {
-        projectName = getProjectName(projectName);
-        createHTML(sidebar, htmlElements[0], projectName, 'project');
-        let projects = document.querySelectorAll('.project');
-        for (let project of projects) {
-            if(project.children.length == 0){
-                createHTML(project, htmlElements[1], 'X', 'delete');
-            };
-        }
-    })
-})();
-
-const createHTML = (expand, html, text, addClass) => {
+const renderHTML = (expand, html, text, addClass) => {
     let element = document.createElement(html);
     if (addClass != undefined) { element.classList.add(addClass) };
     if (text != undefined) { element.textContent = text };
     expand.appendChild(element);
 }
 
-export { addProject };
+//Starting function written in modules pattern
+const addProject = (() => {
+    let htmlElements = ['div', 'em']; //must be oursourced
+    const sidebar = document.querySelector('#sidebar');
+    const btnAddProject = document.querySelector('#btn-add-project') //maby outsourced
+    let btnAdd = renderProjectInput(btnAddProject);
+    let projectName = '';
+    //Add Project to html and change Project Object.
+    btnAdd.addEventListener('click', () => {
+        allProjects.deleteProjects();
+        projectName = getProjectName(projectName);
+        renderHTML(sidebar, htmlElements[0], projectName, 'project');
+        let projects = document.querySelectorAll('.project');
+        for (let project of projects) {
+            allProjects.addProjects(project);
+            if(project.children.length == 0){
+                renderHTML(project, htmlElements[1], 'X', 'delete');
+            };
+        }
+    })
+})();
+
+export { addProject, allProjects };

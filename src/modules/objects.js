@@ -8,6 +8,18 @@ const ToDo = (title, description, dueDate, priority) => {
     return {getDate};
 }
 
+const Project = (projectsHtml = []) => {
+    const addProjects = (project) => projectsHtml.push(project);
+    const showProjects = () => {
+        for(let project of projectsHtml) {
+            console.log(project);
+        }
+    }
+    const deleteProjects = () => {
+        projectsHtml = [];
+    }
+    return {addProjects, showProjects, deleteProjects};
+}
 /*
 const TodoProject = (projectName, active, todos=[]) => {
     const getProjectName = () => projectName;
@@ -32,4 +44,4 @@ const ToDo = (projectName, title, description, dueDate, priority) => {
     return Object.assign({}, prototype, {getTitle, getDescription, getDueDate, getPriority, changePriority, changeTitle, changeDescription, changeDueDate})
 }
 */
-export {ToDo};
+export {ToDo, Project};
