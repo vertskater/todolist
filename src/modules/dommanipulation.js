@@ -1,5 +1,6 @@
 'use strict'
 import {Project} from './objects';
+import {findProjectName} from './functions';
 /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 Code to add new Projects and create the html-code
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
@@ -49,7 +50,7 @@ const renderHTML = (expand, html, text, addClass) => {
 }
 
 //Starting function written in modules pattern
-const addProject = (() => {
+const addProject = () => {
     let htmlElements = ['div', 'em']; //must be oursourced
     const sidebar = document.querySelector('#sidebar');
     const btnAddProject = document.querySelector('#btn-add-project') //maby outsourced
@@ -67,7 +68,9 @@ const addProject = (() => {
                 renderHTML(project, htmlElements[1], 'X', 'delete');
             };
         }
+        findProjectName();
     })
-})();
+};
+
 
 export { addProject, allProjects };

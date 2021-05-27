@@ -11,9 +11,7 @@ const ToDo = (title, description, dueDate, priority) => {
 const Project = (projectsHtml = []) => {
     const addProjects = (project) => projectsHtml.push(project);
     const showProjects = () => {
-        for(let project of projectsHtml) {
-            console.log(project);
-        }
+        return projectsHtml;
     }
     const deleteProjects = () => {
         projectsHtml = [];
