@@ -1,6 +1,9 @@
 'use strict'
 import './main.min.css';
-import {init} from './modules/dommanipulation';
+import {init, projects} from './modules/dommanipulation';
+
+console.log(projects[0]);
+
 
 
 

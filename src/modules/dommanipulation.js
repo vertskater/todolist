@@ -1,12 +1,7 @@
 import { Project, inputProject} from './objects';
+let projects = [];
 
-const changeProject = (projects) => {
-    for(let project of projects){
-        project.div.addEventListener('click', () => {
-            console.log(project.div.firstChild.textContent);
-        })
-    }
-}
+
 
 const changeHidden = (...args) => {
     for(let item of args){
@@ -19,7 +14,7 @@ const init = (() => {
     const btnAdd = document.querySelector('#btn-add-project');
     let overlay = document.querySelector('.overlay');
     let project = new Project(expand, 'Default', 'X', 1);
-    let projects = [];
+    project.isActive = true;
     projects.push(project);
     let renderInput = new inputProject(expandNewProject, 'Add new project name', 'Add Project', 'Cancel');
     project.expandHtml();
@@ -42,15 +37,40 @@ const init = (() => {
             project.expandHtml();
             renderInput.input.value = '';
             changeHidden(renderInput.aside, overlay);
-            changeProject(projects);
+            console.log(projects);
         }
     })
-    //changeProject(projects);
 })();
 
+const eventsProjects = (rootElement, event, handler) => {
+    rootElement.addEventListener(event, (e) => {
+        let targetElement = e.target
+        while(targetElement != null){
+            if(targetElement.matches('.project')){
+                handler(projects[targetElement.dataset.index - 1]);
+                return
+            }
+            targetElement = targetElement.parentElement;
+        }
+    }, true)
+}
 
+const projectsDelete = (rootElement, event) => {
+    rootElement.addEventListener(event, (e) => {
+        let targetElement = e.target
+        while(targetElement != null){
+            if(targetElement.matches('.delete')){
+                projects.splice([targetElement.dataset.index - 1],1);
+                targetElement.parentElement.remove();
+                return
+            }
+            targetElement = targetElement.parentElement;
+        }
+    }, true)
+}
 
-
-
-export {init};
+const sidebar = document.querySelector('#sidebar');
+eventsProjects(sidebar, 'click', console.log);
+projectsDelete(sidebar, 'click');
+export {init, projects};
 

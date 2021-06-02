@@ -1,6 +1,6 @@
 
-function Project(htmlExpand, divText, emText, dataIndex){
-    //Create DOM Elements
+function Project(htmlExpand, divText, emText, dataIndex) {
+    //Create DOM Elements and propertys
     let div = document.createElement('div');
     div.classList.add('project');
     div.dataset.index = dataIndex;
@@ -9,12 +9,13 @@ function Project(htmlExpand, divText, emText, dataIndex){
     em.classList.add('delete');
     em.textContent = emText;
     div.appendChild(em);
+    let isActive = false;
     //Methods
     const expandHtml = () => htmlExpand.appendChild(div);
-    return {expandHtml, div};
+    return { expandHtml, div, isActive };
 }
 
-function inputProject(htmlExpand, textContent, btnContent, cancelContent){
+function inputProject(htmlExpand, textContent, btnContent, cancelContent) {
     //Craete DOM Elements
     const aside = document.createElement('aside');
     aside.classList.add('type-project-name');
@@ -34,11 +35,11 @@ function inputProject(htmlExpand, textContent, btnContent, cancelContent){
     aside.appendChild(input);
     aside.appendChild(button1);
     aside.appendChild(button2);
-    
+
     //Methods
     const expandHtml = () => htmlExpand.appendChild(aside);
-    return {expandHtml, aside, button1, button2, input, h2};
+    return { expandHtml, aside, button1, button2, input, h2 };
 }
 
 
-export {Project, inputProject};
+export { Project, inputProject };
