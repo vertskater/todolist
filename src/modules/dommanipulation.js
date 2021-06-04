@@ -53,10 +53,10 @@ const init = (() => {
             renderInput.h2.textContent = 'Please type in a Project name' ;
         } else{
             let project = new Project(expand, renderInput.input.value, 'X', (projects.length + 1))
-            projects.push(project);
             project.expandHtml();
             setProjectsFalse()
             project.isActive = true;
+            projects.push(project);
             renderInput.input.value = '';
             changeHidden(renderInput.aside, overlay);
             changeBackgroundColor(project, project.div);
@@ -83,7 +83,7 @@ const eventsProjects = (rootElement, event) => {
     }, true)
 }
 
-//Delete Projects
+//Delete Project Elements form DOM and Array
 const projectsDelete = (rootElement, event) => {
     rootElement.addEventListener(event, (e) => {
         let targetElement = e.target
@@ -99,9 +99,9 @@ const projectsDelete = (rootElement, event) => {
                     setNewIndex();
                     return
                 }else{
-                    projects.splice([targetElement.dataset.index - 1],1);
-                    setNewIndex();
+                    projects.splice([targetElement.parentElement.dataset.index -1],1);
                     targetElement.parentElement.remove();
+                    setNewIndex();
                 }   
                 return
             }
@@ -114,5 +114,5 @@ const sidebar = document.querySelector('#sidebar');
 eventsProjects(sidebar, 'click');
 projectsDelete(sidebar, 'click');
 
-export {init, projects};
+export {init};
 
