@@ -1,13 +1,31 @@
 import { Project, inputProject} from './objects';
 let projects = [];
 
-
-
+const setProjectsFalse = () => {
+    for(let item of projects){
+        item.isActive = false
+    }
+}
 const changeHidden = (...args) => {
     for(let item of args){
         item.classList.toggle('hidden');
     }
 }
+
+const changeBackgroundColor = (project, item) => {
+    for(let item of projects){
+        item.div.style.backgroundColor = 'white';
+    }
+    project.isActive ? item.style.backgroundColor = 'lightgreen' : item.style.backgroundColor = 'white'; 
+}
+const setNewIndex = () => {
+    let i = 1;
+    for(let item of projects){
+        item.div.dataset.index = i
+        i++;
+    }
+}
+
 const init = (() => {
     const expand = document.querySelector('#sidebar');
     const expandNewProject = document.querySelector('main');
@@ -16,8 +34,10 @@ const init = (() => {
     let project = new Project(expand, 'Default', 'X', 1);
     project.isActive = true;
     projects.push(project);
+    changeBackgroundColor(project, project.div);
     let renderInput = new inputProject(expandNewProject, 'Add new project name', 'Add Project', 'Cancel');
     project.expandHtml();
+    
     
     btnAdd.addEventListener('click', () => {
         renderInput.expandHtml();
@@ -35,19 +55,27 @@ const init = (() => {
             let project = new Project(expand, renderInput.input.value, 'X', (projects.length + 1))
             projects.push(project);
             project.expandHtml();
+            setProjectsFalse()
+            project.isActive = true;
             renderInput.input.value = '';
             changeHidden(renderInput.aside, overlay);
-            console.log(projects);
+            changeBackgroundColor(project, project.div);
         }
     })
 })();
 
-const eventsProjects = (rootElement, event, handler) => {
+//Click event for projects
+const eventsProjects = (rootElement, event) => {
     rootElement.addEventListener(event, (e) => {
         let targetElement = e.target
         while(targetElement != null){
             if(targetElement.matches('.project')){
-                handler(projects[targetElement.dataset.index - 1]);
+                let currentProject = projects[targetElement.dataset.index - 1]
+                setProjectsFalse();
+                currentProject.isActive = true;
+                console.log(currentProject, currentProject.div)
+                changeBackgroundColor(currentProject, currentProject.div )
+                console.log(projects);
                 return
             }
             targetElement = targetElement.parentElement;
@@ -55,13 +83,26 @@ const eventsProjects = (rootElement, event, handler) => {
     }, true)
 }
 
+//Delete Projects
 const projectsDelete = (rootElement, event) => {
     rootElement.addEventListener(event, (e) => {
         let targetElement = e.target
         while(targetElement != null){
             if(targetElement.matches('.delete')){
-                projects.splice([targetElement.dataset.index - 1],1);
-                targetElement.parentElement.remove();
+                let currentProject = projects[targetElement.parentElement.dataset.index - 1]
+                if (currentProject.isActive){
+                    setProjectsFalse()
+                    projects[0].isActive = true;
+                    changeBackgroundColor(projects[0], projects[0].div);
+                }
+                if(projects.length <= 1){
+                    setNewIndex();
+                    return
+                }else{
+                    projects.splice([targetElement.dataset.index - 1],1);
+                    setNewIndex();
+                    targetElement.parentElement.remove();
+                }   
                 return
             }
             targetElement = targetElement.parentElement;
@@ -70,7 +111,8 @@ const projectsDelete = (rootElement, event) => {
 }
 
 const sidebar = document.querySelector('#sidebar');
-eventsProjects(sidebar, 'click', console.log);
+eventsProjects(sidebar, 'click');
 projectsDelete(sidebar, 'click');
+
 export {init, projects};
 
