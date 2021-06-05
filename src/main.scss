@@ -76,6 +76,10 @@ main {
             transform: scale(1.1);
         }
     }
+    #edit,
+    #submit{
+        padding: 3%;
+    }
     section {
         .project {
             border: solid 1px $text-color;
@@ -159,6 +163,10 @@ main {
             text-align: center;
             font-style: inherit;
             cursor: pointer;
+            transition: background-color 200ms ease;
+            &:hover{
+                background-color: #ff0000;
+            }
         }
     }
     .type-project-name{

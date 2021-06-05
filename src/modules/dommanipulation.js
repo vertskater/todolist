@@ -1,4 +1,4 @@
-import { Project, inputProject} from './objects';
+import { Project, InputProject, ToDo} from './objects';
 let projects = [];
 
 const setProjectsFalse = () => {
@@ -35,7 +35,7 @@ const init = (() => {
     project.isActive = true;
     projects.push(project);
     changeBackgroundColor(project, project.div);
-    let renderInput = new inputProject(expandNewProject, 'Add new project name', 'Add Project', 'Cancel');
+    let renderInput = new InputProject(expandNewProject, 'Add new project name', 'Add Project', 'Cancel');
     project.expandHtml();
     
     
@@ -113,6 +113,17 @@ const projectsDelete = (rootElement, event) => {
 const sidebar = document.querySelector('#sidebar');
 eventsProjects(sidebar, 'click');
 projectsDelete(sidebar, 'click');
+//Sidebar and Project UI end -------------------------
+
+const todoContent = document.querySelector('.content');
+const addToDo = document.querySelector('.add-todo');
+
+addToDo.addEventListener('click', () => {
+    console.log(todoContent);
+    let todo = new ToDo(todoContent);
+    console.log(todo);
+    todo.expandHtml();
+})
 
 export {init};
 

@@ -15,7 +15,7 @@ function Project(htmlExpand, divText, emText, dataIndex) {
     return { expandHtml, div, isActive };
 }
 
-function inputProject(htmlExpand, textContent, btnContent, cancelContent) {
+function InputProject(htmlExpand, textContent, btnContent, cancelContent) {
     //Craete DOM Elements
     const aside = document.createElement('aside');
     aside.classList.add('type-project-name');
@@ -41,5 +41,61 @@ function inputProject(htmlExpand, textContent, btnContent, cancelContent) {
     return { expandHtml, aside, button1, button2, input, h2 };
 }
 
+function ToDo(htmlExpand) {
+    let prioritys = ['height', 'medium', 'low'];
+    const todo = document.createElement('div');
+    todo.classList.add('todo');
+    const removeToDo = document.createElement('em');
+    removeToDo.classList.add('delete');
+    removeToDo.textContent = 'X';
+    const todoTitle = document.createElement('h3');
+    todoTitle.classList.add('todo-title');
+    todoTitle.style.display = 'none';
+    const todoDescription = document.createElement('span');
+    todoDescription.classList.add('todo-description');
+    todoDescription.style.display = 'none';
+    const inputTitle = document.createElement('input');
+    inputTitle.type = 'text';
+    inputTitle.id = 'input-todo-title';
+    inputTitle.placeholder = 'Title';
+    const inputDescription = document.createElement('input');
+    inputDescription.type = 'text';
+    inputDescription.id = 'input-todo-description';
+    inputDescription.placeholder = 'Description';
+    const dueDate = document.createElement('input');
+    dueDate.type = 'date';
+    const priorityLabel = document.createElement('label');
+    priorityLabel.setAttribute('for', 'todo-priority');
+    priorityLabel.textContent = 'priority:';
+    const selectionPriority = document.createElement('select');
+    selectionPriority.id = 'todo-priority';
+    selectionPriority.name = 'todo-priority';
+    for(let i = 0; i < prioritys.length; i++){
+        const option = document.createElement('option');
+        option.value = prioritys[i];
+        option.textContent = prioritys[i];
+        selectionPriority.appendChild(option);
+    }
+    const btnEdit = document.createElement('button');
+    btnEdit.id = 'edit';
+    btnEdit.textContent = 'Edit';
+    const btnSubmit = document.createElement('button');
+    btnSubmit.id = 'submit';
+    btnSubmit.textContent = 'Submint';
 
-export { Project, inputProject };
+    todo.appendChild(removeToDo);
+    todo.appendChild(todoTitle);
+    todo.appendChild(todoDescription);
+    todo.appendChild(inputTitle);
+    todo.appendChild(inputDescription);
+    todo.appendChild(dueDate);
+    todo.appendChild(priorityLabel);
+    todo.appendChild(selectionPriority);
+    todo.appendChild(btnEdit);
+    todo.appendChild(btnSubmit);
+
+    const expandHtml = () => htmlExpand.appendChild(todo);
+    return {expandHtml};
+}
+
+export { Project, InputProject, ToDo};
