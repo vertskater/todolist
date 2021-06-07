@@ -41,10 +41,11 @@ function InputProject(htmlExpand, textContent, btnContent, cancelContent) {
     return { expandHtml, aside, button1, button2, input, h2 };
 }
 
-function ToDo(htmlExpand) {
+function ToDo(htmlExpand, index) {
     let prioritys = ['height', 'medium', 'low'];
-    const todo = document.createElement('div');
-    todo.classList.add('todo');
+    const todoDiv = document.createElement('div');
+    todoDiv.classList.add('todo');
+    todoDiv.dataset.index = index;
     const removeToDo = document.createElement('em');
     removeToDo.classList.add('delete');
     removeToDo.textContent = 'X';
@@ -56,11 +57,11 @@ function ToDo(htmlExpand) {
     todoDescription.style.display = 'none';
     const inputTitle = document.createElement('input');
     inputTitle.type = 'text';
-    inputTitle.id = 'input-todo-title';
+    inputTitle.classList.add('input-todo-title');
     inputTitle.placeholder = 'Title';
     const inputDescription = document.createElement('input');
     inputDescription.type = 'text';
-    inputDescription.id = 'input-todo-description';
+    inputDescription.classList.add('input-todo-description');
     inputDescription.placeholder = 'Description';
     const dueDate = document.createElement('input');
     dueDate.type = 'date';
@@ -68,10 +69,12 @@ function ToDo(htmlExpand) {
     priorityLabel.setAttribute('for', 'todo-priority');
     priorityLabel.textContent = 'priority:';
     const selectionPriority = document.createElement('select');
-    selectionPriority.id = 'todo-priority';
+    selectionPriority.classList.add('todo-priority'); 
     selectionPriority.name = 'todo-priority';
+    let options = [];
     for(let i = 0; i < prioritys.length; i++){
         const option = document.createElement('option');
+        options.push(option);
         option.value = prioritys[i];
         option.textContent = prioritys[i];
         selectionPriority.appendChild(option);
@@ -80,22 +83,36 @@ function ToDo(htmlExpand) {
     btnEdit.id = 'edit';
     btnEdit.textContent = 'Edit';
     const btnSubmit = document.createElement('button');
-    btnSubmit.id = 'submit';
+    btnSubmit.classList.add('submit');
     btnSubmit.textContent = 'Submint';
 
-    todo.appendChild(removeToDo);
-    todo.appendChild(todoTitle);
-    todo.appendChild(todoDescription);
-    todo.appendChild(inputTitle);
-    todo.appendChild(inputDescription);
-    todo.appendChild(dueDate);
-    todo.appendChild(priorityLabel);
-    todo.appendChild(selectionPriority);
-    todo.appendChild(btnEdit);
-    todo.appendChild(btnSubmit);
+    todoDiv.appendChild(removeToDo);
+    todoDiv.appendChild(todoTitle);
+    todoDiv.appendChild(todoDescription);
+    todoDiv.appendChild(inputTitle);
+    todoDiv.appendChild(inputDescription);
+    todoDiv.appendChild(dueDate);
+    todoDiv.appendChild(priorityLabel);
+    todoDiv.appendChild(selectionPriority);
+    todoDiv.appendChild(btnEdit);
+    todoDiv.appendChild(btnSubmit);
 
-    const expandHtml = () => htmlExpand.appendChild(todo);
-    return {expandHtml};
+
+    const expandHtml = () => htmlExpand.appendChild(todoDiv);
+    const addContent = () => {
+        if(!inputTitle.value == '' && !inputDescription == '') {
+            let title = inputTitle.value;
+            let description = inputDescription.value;
+            inputTitle.style.display = 'none';
+            inputDescription.style.display = 'none';
+            todoTitle.textContent = title;
+            todoDescription.textContent = description;
+            todoTitle.style.display = 'block';
+            todoDescription.style.display = 'block';
+        }
+    }
+    //const changeTitle = () => ;
+    return {expandHtml, addContent, todoDiv, options};
 }
 
 export { Project, InputProject, ToDo};
