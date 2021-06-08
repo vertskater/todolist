@@ -1,3 +1,4 @@
+import { format, parseISO } from "date-fns";
 
 function Project(htmlExpand, divText, emText, dataIndex) {
     //Create DOM Elements and propertys
@@ -55,6 +56,9 @@ function ToDo(htmlExpand, index) {
     const todoDescription = document.createElement('span');
     todoDescription.classList.add('todo-description');
     todoDescription.style.display = 'none';
+    const tododueDate = document.createElement('span');
+    tododueDate.classList.add('todo-dueDate');
+    tododueDate.style.display = 'none';
     const inputTitle = document.createElement('input');
     inputTitle.type = 'text';
     inputTitle.classList.add('input-todo-title');
@@ -80,7 +84,7 @@ function ToDo(htmlExpand, index) {
         selectionPriority.appendChild(option);
     }
     const btnEdit = document.createElement('button');
-    btnEdit.id = 'edit';
+    btnEdit.classList.add('edit');
     btnEdit.textContent = 'Edit';
     const btnSubmit = document.createElement('button');
     btnSubmit.classList.add('submit');
@@ -89,6 +93,7 @@ function ToDo(htmlExpand, index) {
     todoDiv.appendChild(removeToDo);
     todoDiv.appendChild(todoTitle);
     todoDiv.appendChild(todoDescription);
+    todoDiv.appendChild(tododueDate);
     todoDiv.appendChild(inputTitle);
     todoDiv.appendChild(inputDescription);
     todoDiv.appendChild(dueDate);
@@ -100,19 +105,37 @@ function ToDo(htmlExpand, index) {
 
     const expandHtml = () => htmlExpand.appendChild(todoDiv);
     const addContent = () => {
-        if(!inputTitle.value == '' && !inputDescription == '') {
+        if(!inputTitle.value == '' && !inputDescription == '' && !dueDate == '') {
             let title = inputTitle.value;
             let description = inputDescription.value;
+            let dueDateValue = dueDate.value;
+            dueDateValue = (format(parseISO(dueDateValue), 'dd. MMMM yyyy'))
             inputTitle.style.display = 'none';
             inputDescription.style.display = 'none';
+            dueDate.style.display = 'none';
             todoTitle.textContent = title;
             todoDescription.textContent = description;
+            tododueDate.textContent = dueDateValue;
             todoTitle.style.display = 'block';
             todoDescription.style.display = 'block';
+            tododueDate.style.display = 'block';
+            
         }
     }
-    //const changeTitle = () => ;
-    return {expandHtml, addContent, todoDiv, options};
+    const editTodo = () => {
+        if(todoTitle.style.display === 'block'){
+            todoTitle.textContent = '';
+            todoDescription.textContent = '';
+            tododueDate.textContent = '';
+            todoTitle.style.display = 'none';
+            todoDescription.style.display = 'none';
+            tododueDate.style.display = 'none';
+            inputTitle.style.display = 'block'
+            inputDescription.style.display = 'block';
+            dueDate.style.display = 'block';
+        }
+    }
+    return {expandHtml, addContent, editTodo, todoDiv, options, dueDate};
 }
 
 export { Project, InputProject, ToDo};

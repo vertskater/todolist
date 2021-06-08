@@ -1,3 +1,4 @@
+import { indexOf } from 'lodash';
 import { Project, InputProject, ToDo } from './objects';
 let projects = [];
 let todos = [];
@@ -70,6 +71,7 @@ const eventsProjects = (rootElement, event) => {
     rootElement.addEventListener(event, (e) => {
         let targetElement = e.target
         while (targetElement != null) {
+            //create Project
             if (targetElement.matches('.project')) {
                 let currentProject = projects[targetElement.dataset.index - 1]
                 setProjectsFalse();
@@ -77,16 +79,7 @@ const eventsProjects = (rootElement, event) => {
                 changeBackgroundColor(currentProject, currentProject.div)
                 return
             }
-            targetElement = targetElement.parentElement;
-        }
-    }, true)
-}
-
-//Delete Project Elements form DOM and Array
-const projectsDelete = (rootElement, event) => {
-    rootElement.addEventListener(event, (e) => {
-        let targetElement = e.target
-        while (targetElement != null) {
+            //delete Project
             if (targetElement.matches('.delete')) {
                 let currentProject = projects[targetElement.parentElement.dataset.index - 1]
                 if (currentProject.isActive) {
@@ -111,7 +104,7 @@ const projectsDelete = (rootElement, event) => {
 
 const sidebar = document.querySelector('#sidebar');
 eventsProjects(sidebar, 'click');
-projectsDelete(sidebar, 'click');
+//projectsDelete(sidebar, 'click');
 //Sidebar and Project UI end --------------------------------
 
 const todoContent = document.querySelector('.content');
@@ -156,6 +149,20 @@ const todoSubmit = (rootElement, event) => {
 }
 todoSubmit(todoContent, 'click');
 
+const todoEdit = (rootElement, event) => {
+    rootElement.addEventListener(event, (e) => {
+        let targetElement = e.target;
+        while (targetElement != null) {
+            if (targetElement.matches('.edit')) {
+                //find Current DOM Element in Array
+                let currentToDo = todos.find(item => item.todoDiv == targetElement.parentElement); 
+                currentToDo.editTodo();
+            }
+            targetElement = targetElement.parentElement;
+        }
+    }, true)
+}
+todoEdit(todoContent, 'click');
 
 const changePriority = (rootElement, event) => {
     rootElement.addEventListener(event, (e) => {
@@ -177,6 +184,24 @@ const changePriority = (rootElement, event) => {
     }, true)
 }
 changePriority(todoContent, 'change');
+
+const deleteDoto = (rootElement, event) => {
+    rootElement.addEventListener(event, (e) => {
+        let targetElement = e.target;
+        while (targetElement != null) {
+            if (targetElement.matches('.delete')) {
+                //find Current DOM Element in Array
+                let currentToDo = todos.find(item => item.todoDiv == targetElement.parentElement); 
+                let arrayIndex = todos.indexOf(currentToDo);
+                todos.splice(arrayIndex, 1);
+                currentToDo.todoDiv.remove();
+            }
+            targetElement = targetElement.parentElement;
+        }
+    }, true)
+}
+
+deleteDoto(todoContent, 'click');
 
 export { init };
 
