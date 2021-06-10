@@ -1,32 +1,11 @@
+
 import { indexOf } from 'lodash';
+import { deleteTodosinProject, loadTodos, changeHidden, changeBackgroundColor, setNewIndex, setProjectsFalse, switchingProjects } from '../index';
 import { Project, InputProject, ToDo } from './objects';
 let projects = [];
 let todos = [];
 
-const setProjectsFalse = () => {
-    for (let item of projects) {
-        item.isActive = false
-    }
-}
-const changeHidden = (...args) => {
-    for (let item of args) {
-        item.classList.toggle('hidden');
-    }
-}
 
-const changeBackgroundColor = (project, item) => {
-    for (let item of projects) {
-        item.div.style.backgroundColor = 'white';
-    }
-    project.isActive ? item.style.backgroundColor = 'lightgreen' : item.style.backgroundColor = 'white';
-}
-const setNewIndex = () => {
-    let i = 1;
-    for (let item of projects) {
-        item.div.dataset.index = i
-        i++;
-    }
-}
 
 const init = (() => {
     const expand = document.querySelector('#sidebar');
@@ -47,12 +26,15 @@ const init = (() => {
     })
     renderInput.button2.addEventListener('click', () => {
         changeHidden(renderInput.aside, overlay);
-        renderInput.h2.textContent = 'Add new Project name'
+        renderInput.h2.textContent = 'Add new Project name';
         renderInput.input.value = '';
     })
     renderInput.button1.addEventListener('click', () => {
         if (renderInput.input.value === '') {
             renderInput.h2.textContent = 'Please type in a Project name';
+            console.log(projects.some(item => item.div.firstChild.textContent === 'Default'));
+        } else if (projects.some(item => item.div.firstChild.textContent === renderInput.input.value)) {
+            renderInput.h2.textContent = 'Projectname is already in use';
         } else {
             let project = new Project(expand, renderInput.input.value, 'X', (projects.length + 1))
             project.expandHtml();
@@ -60,11 +42,14 @@ const init = (() => {
             project.isActive = true;
             projects.push(project);
             renderInput.input.value = '';
+            renderInput.h2.textContent = 'Add new Project name';
             changeHidden(renderInput.aside, overlay);
             changeBackgroundColor(project, project.div);
+            dontShowTodos();
         }
     })
 })();
+
 
 //Click event for projects
 const eventsProjects = (rootElement, event) => {
@@ -73,19 +58,26 @@ const eventsProjects = (rootElement, event) => {
         while (targetElement != null) {
             //create Project
             if (targetElement.matches('.project')) {
+                switchingProjects(targetElement)
+                dontShowTodos();
+                loadTodos(targetElement.firstChild.textContent);
+                /*
                 let currentProject = projects[targetElement.dataset.index - 1]
                 setProjectsFalse();
                 currentProject.isActive = true;
                 changeBackgroundColor(currentProject, currentProject.div)
+                loadTodos(currentProject.div.firstChild.textContent);
                 return
+                */
             }
             //delete Project
-            if (targetElement.matches('.delete')) {
+            /*if (targetElement.matches('.delete')) {
                 let currentProject = projects[targetElement.parentElement.dataset.index - 1]
                 if (currentProject.isActive) {
-                    setProjectsFalse()
+                    setProjectsFalse();
                     projects[0].isActive = true;
                     changeBackgroundColor(projects[0], projects[0].div);
+                    loadTodos(currentProject.div.firstChild.textContent)
                 }
                 if (projects.length <= 1) {
                     setNewIndex();
@@ -94,14 +86,16 @@ const eventsProjects = (rootElement, event) => {
                     projects.splice([targetElement.parentElement.dataset.index - 1], 1);
                     targetElement.parentElement.remove();
                     setNewIndex();
+                    loadTodos(currentProject.div.firstChild.textContent);
                 }
+                dontShowTodos()
+                deleteTodosinProject(currentProject.div.firstChild.textContent);
                 return
-            }
+            }*/ //TODO: Todos must be deleted form the todos Array when an Object is going to be deleted.
             targetElement = targetElement.parentElement;
         }
     }, true)
 }
-
 const sidebar = document.querySelector('#sidebar');
 eventsProjects(sidebar, 'click');
 //projectsDelete(sidebar, 'click');
@@ -124,7 +118,7 @@ addToDo.addEventListener('click', () => {
         todos.push(todo);
         todo.todoDiv.dataset.name = projectName;
         todo.todoDiv.style.backgroundColor = 'coral';
-    } else {  
+    } else {
         let todo = new ToDo(todoContent, todos.length + 1);
         todo.expandHtml();
         todos.push(todo);
@@ -140,7 +134,7 @@ const todoSubmit = (rootElement, event) => {
         while (targetElement != null) {
             if (targetElement.matches('.submit')) {
                 //find Current DOM Element in Array
-                let currentToDo = todos.find(item => item.todoDiv == targetElement.parentElement); 
+                let currentToDo = todos.find(item => item.todoDiv == targetElement.parentElement);
                 currentToDo.addContent();
             }
             targetElement = targetElement.parentElement;
@@ -155,7 +149,7 @@ const todoEdit = (rootElement, event) => {
         while (targetElement != null) {
             if (targetElement.matches('.edit')) {
                 //find Current DOM Element in Array
-                let currentToDo = todos.find(item => item.todoDiv == targetElement.parentElement); 
+                let currentToDo = todos.find(item => item.todoDiv == targetElement.parentElement);
                 currentToDo.editTodo();
             }
             targetElement = targetElement.parentElement;
@@ -170,12 +164,12 @@ const changePriority = (rootElement, event) => {
         while (targetElement != null) {
             if (targetElement.matches('.todo-priority')) {
                 //find Current DOM Element in Array
-                let currentToDo = todos.find(item => item.todoDiv == targetElement.parentElement); 
-                if(targetElement.children[0].selected) {
+                let currentToDo = todos.find(item => item.todoDiv == targetElement.parentElement);
+                if (targetElement.children[0].selected) {
                     currentToDo.todoDiv.style.backgroundColor = 'coral';
-                }else if (targetElement.children[1].selected) {
+                } else if (targetElement.children[1].selected) {
                     currentToDo.todoDiv.style.backgroundColor = 'gold';
-                }else if (targetElement.children[2].selected) {
+                } else if (targetElement.children[2].selected) {
                     currentToDo.todoDiv.style.backgroundColor = 'darkseagreen';
                 }
             }
@@ -191,7 +185,7 @@ const deleteDoto = (rootElement, event) => {
         while (targetElement != null) {
             if (targetElement.matches('.delete')) {
                 //find Current DOM Element in Array
-                let currentToDo = todos.find(item => item.todoDiv == targetElement.parentElement); 
+                let currentToDo = todos.find(item => item.todoDiv == targetElement.parentElement);
                 let arrayIndex = todos.indexOf(currentToDo);
                 todos.splice(arrayIndex, 1);
                 currentToDo.todoDiv.remove();
@@ -203,5 +197,35 @@ const deleteDoto = (rootElement, event) => {
 
 deleteDoto(todoContent, 'click');
 
-export { init };
+//Switching Projects and load Todos
+
+const dontShowTodos = () => {
+    let todosHTML = document.querySelectorAll('.todo');
+    for (let item of todosHTML) {
+        item.remove();
+    }
+}
+
+
+// const switchingProjects = (rootElement, event) => {
+//     rootElement.addEventListener(event, (e) => {
+//         let targetElement = e.target;
+//         while (targetElement != null) {
+//             if (targetElement.matches('.project')) {
+
+//             }
+//             targetElement = targetElement.parentElement;
+//         }
+//     }, true)
+// }
+
+
+//switchingProjects(sidebar, 'click')
+
+export { init, projects, todos };
+
+
+
+
+
 
