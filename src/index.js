@@ -4,7 +4,7 @@ import './main.min.css';
 import { init, projects, todos } from './modules/dommanipulation';
 import { Project, InputProject, ToDo } from './modules/objects';
 
-//Hilfsfunktionen
+//Helper Functions
 function setProjectsFalse() {
     for (let item of projects) {
         item.isActive = false
@@ -36,6 +36,7 @@ const todoContent = document.querySelector('.content');
 
 const loadTodos = (projectName) => {
     for (let item of todos) {
+        console.log(item.todoDiv.dataset.name, projectName);
         if (item.todoDiv.dataset.name == projectName) {
             todoContent.appendChild(item.todoDiv);
         }
@@ -43,10 +44,12 @@ const loadTodos = (projectName) => {
 }
 
 const deleteTodosinProject = (projectName) => {
-    for (let item of todos) {
-        if (item.todoDiv.dataset.name === projectName) {
-            let index = todos.indexOf(item);
+    for(let i = (todos.length -1); i >= 0; i--){
+        console.log(i);
+        if (todos[i].todoDiv.dataset.name === projectName) {
+            let index = todos.indexOf(todos[i]);
             todos.splice(index, 1)
+            //todos.todoDiv.remove();
         }
     }
 }
@@ -63,7 +66,7 @@ function switchingProjects(targetElement) {
 
 
 window.addEventListener('click', () => {
-    console.log(todos, projects);
-})
+     console.log(todos, projects);
+ })
 export { deleteTodosinProject, loadTodos, changeHidden, changeBackgroundColor, setNewIndex, setProjectsFalse, switchingProjects };
 
