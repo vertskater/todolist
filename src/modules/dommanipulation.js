@@ -1,8 +1,10 @@
 
 import { deleteTodosinProject, loadTodos, changeHidden, changeBackgroundColor, setNewIndex, setProjectsFalse, switchingProjects } from '../index';
 import { Project, InputProject, ToDo } from './objects';
+import {storageAvailable} from './localstorage';
 let projects = [];
 let todos = [];
+
 
 const init = (() => {
     //init DOM Elements and create first Project Object
@@ -76,6 +78,7 @@ const eventDeleteProject = (rootElement, event) => {
                     changeBackgroundColor(projects[0], projects[0].div);
                     projects.splice(index, 1);
                     currentProject.div.remove();
+                    dontShowTodos();
                     loadTodos(projects[0].div.firstChild.textContent);
                     //TODO: loading with load Todos is buggy
                 }
@@ -209,6 +212,7 @@ const dontShowTodos = () => {
 
 
 //switchingProjects(sidebar, 'click')
+//local Storage
 
 export { init, projects, todos };
 

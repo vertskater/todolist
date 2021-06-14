@@ -66,7 +66,7 @@ function switchingProjects(targetElement) {
 
 
 window.addEventListener('click', () => {
-     console.log(todos, projects);
- })
+      console.log(todos, projects);
+  })
 export { deleteTodosinProject, loadTodos, changeHidden, changeBackgroundColor, setNewIndex, setProjectsFalse, switchingProjects };
 
