@@ -1,16 +1,15 @@
 /*
 function checkLocalStorage(item, projects) {
     if (window.localStorage.getItem(item)) {
-        projects = JSON.parse(localStorage.getItem(item));
-        console.log(item, projects);
+
     } else {
-        projects = [];
+
     }
 }
-
-function updateLocalStorage(item, array) {
-    window.localStorage.setItem(item, JSON.stringify(array));
-}*/
+*/
+function updateLocalStorage(project) {
+    localStorage.setItem(project, JSON.stringify(array));
+}
 
 function storageAvailable(type) {
     var storage;

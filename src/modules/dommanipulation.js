@@ -5,19 +5,14 @@ import { Project, InputProject, ToDo } from './objects';
 let projects = [];
 let todos = [];
 
-const init = (() => {
-    //init DOM Elements and create first Project Object
+//Add Events and create default project
+const addEvents = () => {
     const expand = document.querySelector('#sidebar');
     const expandNewProject = document.querySelector('main');
     const btnAdd = document.querySelector('#btn-add-project');
     let overlay = document.querySelector('.overlay');
-    let project = new Project(expand, 'Default', 'X', 1);
-    project.isActive = true;
-    projects.push(project);
-    changeBackgroundColor(project, project.div);
     let renderInput = new InputProject(expandNewProject, 'Add new project name', 'Add Project', 'Cancel');
-    project.expandHtml();
-    //Add Events
+    //Events
     btnAdd.addEventListener('click', () => {
         renderInput.expandHtml();
         changeHidden(renderInput.aside, overlay);
@@ -33,20 +28,22 @@ const init = (() => {
         } else if (projects.some(item => item.div.firstChild.textContent === renderInput.input.value)) {
             renderInput.h2.textContent = 'Projectname is already in use';
         } else {
-            let project = new Project(expand, renderInput.input.value, 'X', (projects.length + 1))
-            project.expandHtml();
-            setProjectsFalse()
-            project.isActive = true;
-            projects.push(project);
-            renderInput.input.value = '';
-            renderInput.h2.textContent = 'Add new Project name';
-            changeHidden(renderInput.aside, overlay);
-            changeBackgroundColor(project, project.div);
-            dontShowTodos();
+            if (localStorage.length < 1) {
+                let project = new Project(expand, renderInput.input.value, 'X', (projects.length + 1))
+                project.expandHtml();
+                setProjectsFalse()
+                project.isActive = true;
+                projects.push(project);
+                renderInput.input.value = '';
+                renderInput.h2.textContent = 'Add new Project name';
+                changeHidden(renderInput.aside, overlay);
+                changeBackgroundColor(project, project.div);
+                dontShowTodos();
+
+            }
         }
     })
-})();
-
+}
 
 //Click event for projects
 const eventsProjects = (rootElement, event) => {
@@ -90,6 +87,7 @@ eventDeleteProject(sidebar, 'click')
 //Sidebar and Project UI end --------------------------------
 
 
+//Load Dotos
 const todoContent = document.querySelector('.content');
 const addToDo = document.querySelector('.add-todo');
 
@@ -184,6 +182,17 @@ const deleteDoto = (rootElement, event) => {
 }
 
 deleteDoto(todoContent, 'click');
+
+const init = (() => {
+    //init DOM Elements and create first Project Object
+    const expand = document.querySelector('#sidebar');
+    let project = new Project(expand, 'Default', 'X', 1);
+    project.isActive = true;
+    projects.push(project);
+    changeBackgroundColor(project, project.div);
+    project.expandHtml();
+    addEvents();
+})();
 
 export { init, projects, todos };
 

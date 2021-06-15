@@ -1,11 +1,11 @@
 import { format, parseISO } from "date-fns";
 
-function Project(htmlExpand, divText, emText, dataIndex) {
+function Project(htmlExpand, title, emText, dataIndex) {
     //Create DOM Elements and propertys
     let div = document.createElement('div');
     div.classList.add('project');
     div.dataset.index = dataIndex;
-    div.textContent = divText;
+    div.textContent = title;
     let em = document.createElement('em');
     em.classList.add('delete');
     em.textContent = emText;
@@ -13,7 +13,7 @@ function Project(htmlExpand, divText, emText, dataIndex) {
     let isActive = false;
     //Methods
     const expandHtml = () => htmlExpand.appendChild(div);
-    return { expandHtml, div, isActive };
+    return { expandHtml, div, isActive, title };
 }
 
 function InputProject(htmlExpand, textContent, btnContent, cancelContent) {
@@ -73,7 +73,7 @@ function ToDo(htmlExpand, index) {
     priorityLabel.setAttribute('for', 'todo-priority');
     priorityLabel.textContent = 'priority:';
     const selectionPriority = document.createElement('select');
-    selectionPriority.classList.add('todo-priority'); 
+    selectionPriority.classList.add('todo-priority');
     selectionPriority.name = 'todo-priority';
     let options = [];
     for(let i = 0; i < prioritys.length; i++){
@@ -119,7 +119,7 @@ function ToDo(htmlExpand, index) {
             todoTitle.style.display = 'block';
             todoDescription.style.display = 'block';
             tododueDate.style.display = 'block';
-            
+
         }
     }
     const editTodo = () => {
