@@ -1,10 +1,10 @@
 
-import { deleteTodosinProject, loadTodos, changeHidden, changeBackgroundColor, setNewIndex, setProjectsFalse, switchingProjects } from '../index';
+import { deleteTodosinProject, loadTodos, changeHidden, changeBackgroundColor, setProjectsFalse, switchingProjects, dontShowTodos } from '../index';
 import { Project, InputProject, ToDo } from './objects';
-import {storageAvailable} from './localstorage';
+
+
 let projects = [];
 let todos = [];
-
 
 const init = (() => {
     //init DOM Elements and create first Project Object
@@ -54,7 +54,6 @@ const eventsProjects = (rootElement, event) => {
     rootElement.addEventListener(event, (e) => {
         let targetElement = e.target
         while (targetElement != null) {
-            //create Project
             if (targetElement.matches('.project')) {
                 switchingProjects(targetElement)
                 dontShowTodos();
@@ -64,12 +63,12 @@ const eventsProjects = (rootElement, event) => {
         }
     }, true)
 }
+
 const eventDeleteProject = (rootElement, event) => {
     rootElement.addEventListener(event, (e) => {
         let targetElement = e.target
         while (targetElement != null) {
             if (targetElement.matches('.delete')) {
-                //console.log(projects[0].div.firstChild.textContent, targetElement.parentElement.firstChild.textContent);
                 let currentProject = projects.find(item => item.div.firstChild.textContent == targetElement.parentElement.firstChild.textContent);
                 if (currentProject.div.firstChild.textContent != 'Default') {
                     deleteTodosinProject(currentProject.div.firstChild.textContent);
@@ -80,7 +79,6 @@ const eventDeleteProject = (rootElement, event) => {
                     currentProject.div.remove();
                     dontShowTodos();
                     loadTodos(projects[0].div.firstChild.textContent);
-                    //TODO: loading with load Todos is buggy
                 }
             }
             targetElement = targetElement.parentElement;
@@ -90,8 +88,8 @@ const eventDeleteProject = (rootElement, event) => {
 const sidebar = document.querySelector('#sidebar');
 eventsProjects(sidebar, 'click');
 eventDeleteProject(sidebar, 'click')
-//projectsDelete(sidebar, 'click');
 //Sidebar and Project UI end --------------------------------
+
 
 const todoContent = document.querySelector('.content');
 const addToDo = document.querySelector('.add-todo');
@@ -190,12 +188,7 @@ deleteDoto(todoContent, 'click');
 
 //Switching Projects and load Todos
 
-const dontShowTodos = () => {
-    let todosHTML = document.querySelectorAll('.todo');
-    for (let item of todosHTML) {
-        item.remove();
-    }
-}
+
 
 
 // const switchingProjects = (rootElement, event) => {
