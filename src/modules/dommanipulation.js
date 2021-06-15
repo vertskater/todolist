@@ -2,7 +2,6 @@
 import { deleteTodosinProject, loadTodos, changeHidden, changeBackgroundColor, setProjectsFalse, switchingProjects, dontShowTodos } from '../index';
 import { Project, InputProject, ToDo } from './objects';
 
-
 let projects = [];
 let todos = [];
 
@@ -185,27 +184,6 @@ const deleteDoto = (rootElement, event) => {
 }
 
 deleteDoto(todoContent, 'click');
-
-//Switching Projects and load Todos
-
-
-
-
-// const switchingProjects = (rootElement, event) => {
-//     rootElement.addEventListener(event, (e) => {
-//         let targetElement = e.target;
-//         while (targetElement != null) {
-//             if (targetElement.matches('.project')) {
-
-//             }
-//             targetElement = targetElement.parentElement;
-//         }
-//     }, true)
-// }
-
-
-//switchingProjects(sidebar, 'click')
-//local Storage
 
 export { init, projects, todos };
 
