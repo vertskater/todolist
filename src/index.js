@@ -2,7 +2,7 @@
 import { fromPairs } from 'lodash';
 import './main.min.css';
 import { init, projects, todos } from './modules/dommanipulation';
-import { Project, InputProject, ToDo } from './modules/objects';
+
 
 //Helper Functions
 function setProjectsFalse() {
@@ -29,8 +29,6 @@ function setNewIndex() {
         i++;
     }
 }
-
-
 
 const todoContent = document.querySelector('.content');
 
@@ -65,8 +63,8 @@ function switchingProjects(targetElement) {
 }
 
 
-window.addEventListener('click', () => {
-      console.log(todos, projects);
-  })
+// window.addEventListener('click', () => {
+//       console.log(todos, projects);
+//   })
 export { deleteTodosinProject, loadTodos, changeHidden, changeBackgroundColor, setNewIndex, setProjectsFalse, switchingProjects };
 
