@@ -1,11 +1,13 @@
 
 import { deleteTodosinProject, loadTodos, changeHidden, changeBackgroundColor, setProjectsFalse, switchingProjects, dontShowTodos } from '../index';
 import { Project, InputProject, ToDo } from './objects';
+import { updateLocalStorage, loadDefaultLocalStorage, loadProjectLocalStorage, updateLocalStorageProjects } from './localstorage';
 
 let projects = [];
 let todos = [];
 
 //Add Events and create default project
+//TODO:need to rework this function.
 const addEvents = () => {
     const expand = document.querySelector('#sidebar');
     const expandNewProject = document.querySelector('main');
@@ -28,19 +30,17 @@ const addEvents = () => {
         } else if (projects.some(item => item.div.firstChild.textContent === renderInput.input.value)) {
             renderInput.h2.textContent = 'Projectname is already in use';
         } else {
-            if (localStorage.length < 1) {
-                let project = new Project(expand, renderInput.input.value, 'X', (projects.length + 1))
-                project.expandHtml();
-                setProjectsFalse()
-                project.isActive = true;
-                projects.push(project);
-                renderInput.input.value = '';
-                renderInput.h2.textContent = 'Add new Project name';
-                changeHidden(renderInput.aside, overlay);
-                changeBackgroundColor(project, project.div);
-                dontShowTodos();
-
-            }
+            let project = new Project(expand, renderInput.input.value, 'X', (projects.length + 1))
+            project.expandHtml();
+            setProjectsFalse()
+            project.isActive = true;
+            projects.push(project);
+            renderInput.input.value = '';
+            renderInput.h2.textContent = 'Add new Project name';
+            changeHidden(renderInput.aside, overlay);
+            changeBackgroundColor(project, project.div);
+            dontShowTodos();
+            updateLocalStorageProjects('projects', project.title);
         }
     })
 }
@@ -186,15 +186,22 @@ deleteDoto(todoContent, 'click');
 const init = (() => {
     //init DOM Elements and create first Project Object
     const expand = document.querySelector('#sidebar');
-    let project = new Project(expand, 'Default', 'X', 1);
-    project.isActive = true;
-    projects.push(project);
-    changeBackgroundColor(project, project.div);
-    project.expandHtml();
-    addEvents();
+    if (localStorage.length < 1) {
+        let project = new Project(expand, 'Default', 'X', 1);
+        project.isActive = true;
+        projects.push(project);
+        changeBackgroundColor(project, project.div);
+        project.expandHtml();
+        addEvents();
+        updateLocalStorage('defaultProject', project.title);
+    } else {
+        loadDefaultLocalStorage('defaultProject');
+        loadProjectLocalStorage('projects');
+    }
+
 })();
 
-export { init, projects, todos };
+export { init, projects, todos, addEvents };
 
 
 

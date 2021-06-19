@@ -1,14 +1,38 @@
-/*
-function checkLocalStorage(item, projects) {
-    if (window.localStorage.getItem(item)) {
+import { Project } from './objects';
+import { projects, addEvents } from './dommanipulation';
+import { changeBackgroundColor } from '../index';
+let projectNames = [];
 
+const expand = document.querySelector('#sidebar');
+
+function loadDefaultLocalStorage(name) {
+    if (localStorage.getItem(name)) {
+        let project = new Project(expand, 'Default', 'X', 1);
+        project.isActive = true;
+        projects.push(project);
+        changeBackgroundColor(project, project.div);
+        project.expandHtml();
     } else {
-
+        return;
     }
 }
-*/
-function updateLocalStorage(project) {
-    localStorage.setItem(project, JSON.stringify(array));
+function loadProjectLocalStorage(name) {
+    let allProjects = JSON.parse(localStorage.getItem(name))
+    for(let item of allProjects){
+        let project = new Project(expand, item, 'X', 1);
+        project.isActive = true;
+        projects.push(project);
+        changeBackgroundColor(project, project.div);
+        project.expandHtml();
+    }
+}
+
+function updateLocalStorage(name, item) {
+    localStorage.setItem(name, item);
+}
+function updateLocalStorageProjects(name, item) {
+    projectNames.push(item);
+    localStorage.setItem(name, JSON.stringify(projectNames));
 }
 
 function storageAvailable(type) {
@@ -36,4 +60,7 @@ function storageAvailable(type) {
     }
 }
 
-export {storageAvailable}
+export {
+    storageAvailable, updateLocalStorage, updateLocalStorageProjects, loadDefaultLocalStorage,
+    loadProjectLocalStorage
+}
