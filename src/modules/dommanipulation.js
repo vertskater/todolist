@@ -196,22 +196,6 @@ const dontShowTodos = () => {
 }
 
 
-// const switchingProjects = (rootElement, event) => {
-//     rootElement.addEventListener(event, (e) => {
-//         let targetElement = e.target;
-//         while (targetElement != null) {
-//             if (targetElement.matches('.project')) {
-
-//             }
-//             targetElement = targetElement.parentElement;
-//         }
-//     }, true)
-// }
-
-
-//switchingProjects(sidebar, 'click')
-//local Storage
-
 export { init, projects, todos };
 
 

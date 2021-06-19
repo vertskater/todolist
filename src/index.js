@@ -1,8 +1,6 @@
 'use strict'
-import { fromPairs } from 'lodash';
 import './main.min.css';
 import { init, projects, todos } from './modules/dommanipulation';
-import { Project, InputProject, ToDo } from './modules/objects';
 
 //Helper Functions
 function setProjectsFalse() {
