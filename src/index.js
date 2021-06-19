@@ -36,7 +36,6 @@ const todoContent = document.querySelector('.content');
 
 const loadTodos = (projectName) => {
     for (let item of todos) {
-        console.log(item.todoDiv.dataset.name, projectName);
         if (item.todoDiv.dataset.name == projectName) {
             todoContent.appendChild(item.todoDiv);
         }
@@ -45,7 +44,6 @@ const loadTodos = (projectName) => {
 
 const deleteTodosinProject = (projectName) => {
     for(let i = (todos.length -1); i >= 0; i--){
-        console.log(i);
         if (todos[i].todoDiv.dataset.name === projectName) {
             let index = todos.indexOf(todos[i]);
             todos.splice(index, 1)
@@ -64,9 +62,5 @@ function switchingProjects(targetElement) {
     }
 }
 
-
-window.addEventListener('click', () => {
-      console.log(todos, projects);
-  })
 export { deleteTodosinProject, loadTodos, changeHidden, changeBackgroundColor, setNewIndex, setProjectsFalse, switchingProjects };
 
