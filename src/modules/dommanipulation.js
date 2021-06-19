@@ -1,7 +1,7 @@
 
 import { deleteTodosinProject, loadTodos, changeHidden, changeBackgroundColor, setNewIndex, setProjectsFalse, switchingProjects } from '../index';
 import { Project, InputProject, ToDo } from './objects';
-import {storageAvailable} from './localstorage';
+
 let projects = [];
 let todos = [];
 
